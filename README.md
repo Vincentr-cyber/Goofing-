@@ -1,4 +1,4 @@
-# Loner Tech OTP Lock
+# XD Tech OTP Lock
 
 A sleek, purple-themed web interface for WhatsApp OTP rate-limiting.
 
