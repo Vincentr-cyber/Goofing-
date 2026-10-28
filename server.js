@@ -6,8 +6,8 @@ const rateLimit = require("express-rate-limit");
 const path = require("path");
 const crypto = require("crypto");
 
-const apiRoutes = require("./routes/api");
-const { startHealthMonitor } = require("./services/healthMonitor");
+const apiRoutes = require("./api");
+const { startHealthMonitor } = require("./healthMonitor");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
