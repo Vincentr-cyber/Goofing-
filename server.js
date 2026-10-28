@@ -83,7 +83,7 @@ function requireAccess(req, res, next) {
     
     if (!token || !sessions.has(token)) {
         if (req.path === "/" || req.path === "/index.html") {
-            return res.sendFile(path.join(__dirname, "public", "access.html"));
+           return res.sendFile(path.join(__dirname, "access.html"));
         }
         return res.status(401).json({ error: "Unauthorized" });
     }
@@ -94,12 +94,12 @@ function requireAccess(req, res, next) {
 
 app.get("/", (req, res) => {
     const token = req.query.token || req.headers.authorization?.replace("Bearer ", "");
-    
+
     if (token && sessions.has(token)) {
-        return res.sendFile(path.join(__dirname, "public", "index.html"));
+        return res.sendFile(path.join(__dirname, "index.html"));
     }
-    
-    res.sendFile(path.join(__dirname, "public", "access.html"));
+
+    res.sendFile(path.join(__dirname, "access.html"));
 });
 
 app.use("/api/lock", requireAccess);
@@ -120,15 +120,15 @@ app.get("/health", (req, res) => {
 
 app.get("/admin", (req, res) => {
     const adminKey = req.query.key || req.headers["x-admin-key"];
-    
+
     if (adminKey !== process.env.ADMIN_KEY) {
         return res.status(403).json({ error: "Forbidden" });
     }
-    
-    res.sendFile(path.join(__dirname, "public", "admin.html"));
+
+    res.sendFile(path.join(__dirname, "admin.html"));
 });
 
-app.use(express.static(path.join(__dirname, "public"), {
+app.use(express.static(__dirname, {
     index: false
 }));
 
