@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const otpService = require("../services/otpService");
+const otpService = require("./otpService");
 
 router.post("/lock", async (req, res) => {
     try {
