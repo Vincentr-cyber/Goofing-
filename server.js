@@ -119,18 +119,20 @@ app.get("/health", (req, res) => {
 });
 
 app.get("/admin", (req, res) => {
-    const adminKey = req.query.key || req.headers["x-admin-key"];
+    const expectedKey = process.env.ADMIN_KEY;
+    const submittedKey = req.query.key;
 
-    if (adminKey !== process.env.ADMIN_KEY) {
-        return res.status(403).json({ error: "Forbidden" });
+    if (!expectedKey) {
+        console.error("ADMIN_KEY is missing from Render");
+        return res.status(500).send("Admin key is not configured.");
+    }
+
+    if (typeof submittedKey !== "string" || submittedKey !== expectedKey) {
+        return res.status(403).send("Invalid admin key.");
     }
 
     res.sendFile(path.join(__dirname, "admin.html"));
 });
-
-app.use(express.static(__dirname, {
-    index: false
-}));
 
 app.use((req, res) => {
     res.status(404).json({ error: "Not found" });
